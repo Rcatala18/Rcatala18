@@ -10,20 +10,6 @@ I'm a **Mechatronics Engineer**, **Software Developer**, and **QA Automation Eng
 ## 📝 Bio
 Mechatronic Engineer with a strong capacity for automation, evaluation, planning, execution, and maintenance of processes, always aiming to achieve the highest productivity in company systems. I am responsible, hardworking, eager to learn, and excel at cooperation and integration. I am used to working under pressure, leading teams, and fostering a collaborative environment.
 
-## 📫 Connect With Me
-###
-<div align="left">
-  <a href="https://www.linkedin.com/in/rcatala94/" target="_blank">
-    <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="linkedin logo"  />
-  </a>
-  <a href="rafaeladolfo.catalarivero@telefonica.com" target="_blank">
-    <img src="https://img.shields.io/static/v1?message=Outlook&logo=microsoft-outlook&label=&color=0078D4&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="microsoft-outlook logo"  />
-  </a>
-</div>
-###
-
-###
-
 <div align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="30" alt="python logo"  />
   <img width="12" />
@@ -54,8 +40,23 @@ Mechatronic Engineer with a strong capacity for automation, evaluation, planning
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg" height="30" alt="arduino logo"  />
 </div>
 
+
+## 📫 Connect With Me
 ###
+<div align="left">
+  <a href="https://www.linkedin.com/in/rcatala94/" target="_blank">
+    <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="linkedin logo"  />
+  </a>
+  <a href="rafaeladolfo.catalarivero@telefonica.com" target="_blank">
+    <img src="https://img.shields.io/static/v1?message=Outlook&logo=microsoft-outlook&label=&color=0078D4&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="microsoft-outlook logo"  />
+  </a>
+</div>
 
 ###
-<img align="right" height="125" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGxldmVtaWQxOHkxZ3FhODl5cDdwdXJyamExYW1hbGQwMzRxNGppZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/YRPBhd3vscg5Fxx1DQ/giphy.gif"  />
+
+<br clear="both">
+
+<img src="https://raw.githubusercontent.com/Rcatala18/Rcatala18/output/snake.svg" alt="Snake animation" />
+
 ###
+
