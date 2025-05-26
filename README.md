@@ -52,11 +52,3 @@ Mechatronic Engineer with a strong capacity for automation, evaluation, planning
   </a>
 </div>
 
-###
-
-<br clear="both">
-
-<img src="https://raw.githubusercontent.com/Rcatala18/Rcatala18/output/snake.svg" alt="Snake animation" />
-
-###
-
