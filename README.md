@@ -10,9 +10,6 @@ I'm a **Mechatronics Engineer**, **Software Developer**, and **QA Automation Eng
 ## 📝 Bio
 Mechatronic Engineer with a strong capacity for automation, evaluation, planning, execution, and maintenance of processes, always aiming to achieve the highest productivity in company systems. I am responsible, hardworking, eager to learn, and excel at cooperation and integration. I am used to working under pressure, leading teams, and fostering a collaborative environment.
 
-## 🌟 Featured Project
-[![living-apps-qa-common](https://github-readme-stats.vercel.app/api/pin/?username=Telefonica&repo=living-apps-qa-common)](https://github.com/Telefonica/living-apps-qa-common)
-
 ## 📫 Connect With Me
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?logo=linkedin&style=flat-square)](https://www.linkedin.com/in/rcatala94)
 
