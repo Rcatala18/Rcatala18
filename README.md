@@ -1,16 +1,21 @@
-## Hi there 👋
+# Hi there, I'm Rcatala18 👋
 
-<!--
-**Rcatala18/Rcatala18** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## 🚀 About Me
+I'm a **Mechatronics Engineer**, **Software Developer**, and **QA Automation Engineer** passionate about building robust systems and automating processes for maximum productivity. I thrive on challenging projects, teamwork, and continuous learning.
 
-Here are some ideas to get you started:
+- 🛠️ **Skills:** Python, DevOps, Automation, QA
+- 👨‍💻 **Current Role:** QA Automation Engineer / Software Developer
+- 🎸 **Hobbies:** Guitarist & video games lover
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## 📝 Bio
+Mechatronic Engineer with a strong capacity for automation, evaluation, planning, execution, and maintenance of processes, always aiming to achieve the highest productivity in company systems. I am responsible, hardworking, eager to learn, and excel at cooperation and integration. I am used to working under pressure, leading teams, and fostering a collaborative environment.
+
+## 🌟 Featured Project
+[![living-apps-qa-common](https://github-readme-stats.vercel.app/api/pin/?username=Telefonica&repo=living-apps-qa-common)](https://github.com/Telefonica/living-apps-qa-common)
+
+## 📫 Connect With Me
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?logo=linkedin&style=flat-square)](https://www.linkedin.com/in/rcatala94)
+
+---
+
+> “Striving for excellence through automation and teamwork.”
