@@ -3,7 +3,7 @@
 ## 🚀 About Me
 I'm a **Mechatronics Engineer**, **Software Developer**, and **QA Automation Engineer** passionate about building robust systems and automating processes for maximum productivity. I thrive on challenging projects, teamwork, and continuous learning.
 
-- 🛠️ **Skills:** Python, DevOps, Automation, QA
+- 🛠️ **Skills:** Python, QA, Automation, DevOps.
 - 👨‍💻 **Current Role:** QA Automation Engineer / Software Developer
 - 🎸 **Hobbies:** Guitarist & video games lover
 
