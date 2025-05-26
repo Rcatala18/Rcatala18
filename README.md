@@ -4,26 +4,6 @@
 I'm a **Mechatronics Engineer**, **Software Developer**, and **QA Automation Engineer** passionate about building robust systems and automating processes for maximum productivity. I thrive on challenging projects, teamwork, and continuous learning.
 
 - 🛠️ **Skills:** Python, QA, Automation, DevOps.
-- 👨‍💻 **Current Role:** QA Automation Engineer / Software Developer
-- 🎸 **Hobbies:** Guitarist & video games lover
-
-## 📝 Bio
-Mechatronic Engineer with a strong capacity for automation, evaluation, planning, execution, and maintenance of processes, always aiming to achieve the highest productivity in company systems. I am responsible, hardworking, eager to learn, and excel at cooperation and integration. I am used to working under pressure, leading teams, and fostering a collaborative environment.
-
-## 📫 Connect With Me
-[![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?logo=linkedin&style=flat-square)](https://www.linkedin.com/in/rcatala94)
-
-###
-
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Rcatala18&hide_title=false&hide_rank=false&show_icons=true&include_all_commits=true&count_private=true&disable_animations=false&theme=dracula&locale=en&hide_border=false" height="150" alt="stats graph"  />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs?username=Rcatala18&locale=en&hide_title=false&layout=compact&card_width=320&langs_count=5&theme=dracula&hide_border=false" height="150" alt="languages graph"  />
-</div>
-
-###
-
-<img align="right" height="125" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGxldmVtaWQxOHkxZ3FhODl5cDdwdXJyamExYW1hbGQwMzRxNGppZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/YRPBhd3vscg5Fxx1DQ/giphy.gif"  />
-
 ###
 
 <div align="left">
@@ -58,6 +38,13 @@ Mechatronic Engineer with a strong capacity for automation, evaluation, planning
 
 ###
 
+- 👨‍💻 **Current Role:** QA Automation Engineer / Software Developer
+- 🎸 **Hobbies:** Guitarist & video games lover
+
+## 📝 Bio
+Mechatronic Engineer with a strong capacity for automation, evaluation, planning, execution, and maintenance of processes, always aiming to achieve the highest productivity in company systems. I am responsible, hardworking, eager to learn, and excel at cooperation and integration. I am used to working under pressure, leading teams, and fostering a collaborative environment.
+
+## 📫 Connect With Me
 <div align="left">
   <a href="https://www.linkedin.com/in/rcatala94/" target="_blank">
     <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="linkedin logo"  />
@@ -67,4 +54,8 @@ Mechatronic Engineer with a strong capacity for automation, evaluation, planning
   </a>
 </div>
 
+###
+
+###
+<img align="right" height="125" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGxldmVtaWQxOHkxZ3FhODl5cDdwdXJyamExYW1hbGQwMzRxNGppZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/YRPBhd3vscg5Fxx1DQ/giphy.gif"  />
 ###
