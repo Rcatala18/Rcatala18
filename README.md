@@ -11,7 +11,7 @@ I'm a **Mechatronics Engineer**, **Software Developer**, and **QA Automation Eng
 Mechatronic Engineer with a strong capacity for automation, evaluation, planning, execution, and maintenance of processes, always aiming to achieve the highest productivity in company systems. I am responsible, hardworking, eager to learn, and excel at cooperation and integration. I am used to working under pressure, leading teams, and fostering a collaborative environment.
 
 ## 💻 Programming with
-<div align="left">
+<div style="display: flex; flex-wrap: wrap; gap: 12px;">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" height="30" alt="python logo"  />
   <img width="12" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="30" alt="docker logo"  />
