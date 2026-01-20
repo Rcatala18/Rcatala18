@@ -190,6 +190,69 @@ Allows scheduled runs using `cron`.
 
 ![Workflow -> Trigger -> Schedule](../gifs/workflows-automatic-trigger-with-schedule.gif)
 
+#### `workflow_run`
+
+`workflow_run` is the trigger that runs a workflow in response to the execution of another workflow within the same repository. Use it to chain pipelines (for example: run a report or deploy artifacts when tests finish) or to react to the start/end of a workflow execution.
+
+Definition and behavior:
+- **Scope**: only listens to workflow executions in the same repository. It does not fire for workflows in other repositories.
+- **Event types (`types`)**: supports `requested` and `completed`.
+  - `requested`: fires when a run of the originating workflow is requested/launched (before it actually starts). Useful for pre-run notifications or preparation steps.
+  - `completed`: fires when the originating workflow run finishes.
+- **Filter by workflow**: use `workflows:` to specify one or more workflow filenames (for example `run-tests.yml`) to limit invocations.
+- **Filter by `conclusions`**: when using `types: [completed]` you can filter by final result using `conclusions:` (values: `success`, `failure`, `cancelled`, `skipped`, `neutral`, `timed_out`).
+- **Context**: the receiving workflow has access to `github.event.workflow_run` with useful fields such as:
+  - `id`, `html_url`, `head_sha`, `head_branch`, `run_number`, `status`, `conclusion`, `run_attempt`, `event`.
+- **Permissions and security**: the receiver executes with its own permissions (`permissions:` in the receiving workflow); it does not automatically inherit elevated permissions from the originating workflow.
+- **Be careful with loops**: avoid A → B → A cycles. Use `workflows:`, `conclusions:`, and `if:` conditions to prevent unintended loops.
+
+Example 1 — `requested` (notify/prepare when a run is requested):
+
+```yaml
+on:
+  workflow_run:
+    workflows: ["run-tests.yml"]
+    types: [requested]
+
+jobs:
+  notify-start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show requested run info
+        run: |
+          echo "Requested workflow: ${{ github.event.workflow_run.name }}"
+          echo "Requested by: ${{ github.event.sender.login }}"
+          echo "Commit: ${{ github.event.workflow_run.head_sha }}"
+```
+
+Example 2 — `completed` with `conclusions:` filter (only on success):
+
+```yaml
+on:
+  workflow_run:
+    workflows: ["run-tests.yml"]
+    types: [completed]
+    conclusions: [success]
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Show triggering run info
+        run: |
+          echo "Triggered by workflow run: ${{ github.event.workflow_run.id }}"
+          echo "Status: ${{ github.event.workflow_run.conclusion }}"
+          echo "Commit: ${{ github.event.workflow_run.head_sha }}"
+```
+
+Practical tips:
+- Use `workflows:` and `conclusions:` to minimise unnecessary runs.
+- Add `if:` conditions on jobs to avoid secondary workflows firing on unexpected cases.
+- Use `github.event.workflow_run.html_url` to link back to the originating run in reports.
+
 #### Other common triggers
 
 - `pull_request_target`: Similar to `pull_request` but runs with the base repository’s permissions.
@@ -634,6 +697,17 @@ jobs:
 | github.event_name                      | Event name that triggered the workflow.                           | push                                  |
 | github.event.client_payload.<variable> | Value from a repository_dispatch `client_payload`.                | production                            |
 | github.run_number                      | Unique run number for the workflow.                              | 123                                   |
+| github.event.workflow_run.id          | ID of the workflow run that triggered the event.                 | 123456789                             |
+| github.event.workflow_run.name        | Name of the originating workflow.                                | run-tests.yml                         |
+| github.event.workflow_run.html_url    | URL to the originating run in GitHub Actions.                    | https://github.com/.../actions/runs/123456789 |
+| github.event.workflow_run.head_sha    | Commit SHA that triggered the originating run.                   | ffac537e6cbbf934b08745a378932722dfff  |
+| github.event.workflow_run.head_branch | Branch associated with the originating run.                      | feature-branch                        |
+| github.event.workflow_run.run_number  | Run number of the originating workflow.                          | 42                                    |
+| github.event.workflow_run.status      | Status of the run (`queued`, `in_progress`, `completed`).        | completed                             |
+| github.event.workflow_run.conclusion  | Final conclusion (`success`, `failure`, `cancelled`, ...).       | success                               |
+| github.event.workflow_run.run_attempt | Attempt number for the run (1, 2, ...).                          | 1                                     |
+| github.event.workflow_run.event       | Event that triggered the originating run (`push`, `workflow_dispatch`, ...). | push                                  |
+| github.event.workflow_run.workflow_id | Internal numeric ID of the workflow.                             | 987654                                |
 
 ### Runner variables
 
