@@ -577,6 +577,37 @@ INPUT_PARAM1="$1"
 echo "Executing the action with parameter: $INPUT_PARAM1"
 ```
 
+### Using GITHUB_ENV
+
+`GITHUB_ENV` is a special file provided by GitHub Actions to persist environment variables between steps within the same job. When a step writes `NAME=value` into the file path referenced by the `GITHUB_ENV` environment variable, subsequent steps will receive `NAME` as a normal environment variable.
+
+When to use it:
+- When you need a value computed in one step to be available as an environment variable in later steps within the same job.
+- Prefer it over `echo export VAR=...` because it correctly supports multiline values and special characters.
+
+Practical example:
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Calculate version
+        id: calc
+        run: |
+          VERSION="1.2.$(date +%s)"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Use version in next step
+        run: |
+          echo "Calculated version is $VERSION"
+```
+
+Important notes:
+- `GITHUB_ENV` only shares variables within the same job. To pass values between jobs use job `outputs` and `needs.<job>.outputs.<name>` in dependent jobs.
+- Avoid writing secrets directly to `GITHUB_ENV`; use `secrets.*` or `env:` safely.
+- If you run different shells or languages, make sure to use the correct syntax for that shell to redirect to `$GITHUB_ENV` (for example `>> $GITHUB_ENV`).
+
 
 ## Workflows vs Actions
 
