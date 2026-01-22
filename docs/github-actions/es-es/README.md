@@ -3,6 +3,7 @@
 **GitHub Action** es una herramienta de automatización integrada en **GitHub** que permite definir y ejecutar **flujos de trabajo** personalizados directamente en los repositorios.
 
 Con **GitHub Actions**, puedes:
+
 - Automatizar tareas repetitivas.
 - Ejecutar scripts personalizados en respuesta a eventos como `push`, `pull_request` o `schedule`.
 - Integrar herramientas y servicios externos.
@@ -19,6 +20,7 @@ Las **acciones** se definen en archivos YAML dentro del directorio `.github/acti
 ## Workflows
 
 Un **workflow** es un archivo YAML dentro de `.github/workflows/` que define:
+
 - **Cuándo** debe ejecutarse (`on:` → triggers/eventos).
 - **Qué** debe ejecutarse (`jobs:` → uno o varios jobs).
 - **Dónde** se ejecuta (`runs-on`, contenedores, runners).
@@ -54,6 +56,7 @@ El bloque `on:` define los **eventos** que disparan el workflow. Puedes usar uno
 Se ejecuta cuando hay un push a una rama/tag.
 
 Filtros comunes:
+
 - `branches`: limita a ramas concretas.
 - `tags`: limita a tags.
 - `paths`: limita a cambios en rutas concretas.
@@ -67,6 +70,7 @@ Filtros comunes:
 Se ejecuta ante eventos relacionados con **Pull Requests**.
 
 Filtros comunes:
+
 - `types`: controla *qué* acciones del PR disparan el workflow. Ejemplos típicos:
   - `opened`: cuando se abre el PR.
   - `synchronize`: cuando se empujan commits a la rama del PR.
@@ -82,6 +86,7 @@ Filtros comunes:
 Permite ejecutar el workflow **manualmente** desde la UI (o vía API) y pasar **inputs**.
 
 Características:
+
 - `inputs` pueden tener:
   - `description`, `required`, `default`
   - `type` (`string`, `boolean`, `choice`, `environment`, entre otros.)
@@ -94,6 +99,7 @@ Características:
 Permite que un workflow sea **reutilizable** y sea invocado desde **otro workflow** (del mismo repo u otro repo, según permisos).
 
 Características:
+
 - Define una interfaz con `inputs:` y `secrets:`.
 - Permite exponer `outputs:` del workflow llamado para usarlos en el workflow que lo invoca.
 - Muy útil para estandarizar pipelines (por ejemplo: precondiciones → ejecutar tests → reportar) y reutilizarlos.
@@ -118,10 +124,12 @@ on:
 Permite disparar workflows mediante una llamada a la API de GitHub, enviando un `event_type` y opcionalmente un `client_payload`.
 
 Características:
+
 - `types: [<type>]` filtra por `event_type`.
 - En el workflow, accedes a datos con `github.event.client_payload.<CAMPO>`.
 
 Uso típico:
+
 - Integraciones externas (por ejemplo, un orquestador o “train manager”) que pide ejecutar tests o despliegues.
 
 Ejemplo de `repository_dispatch` con `client_payload`:
@@ -162,20 +170,22 @@ jobs:
 ```
 
 >Notas
+>
 >- Si usas un `GITHUB_TOKEN` proporcionado por GitHub Actions desde otro workflow, ten en cuenta que **no** puede usarse para llamar a la API `dispatches` contra otro repositorio. Para llamar a `repository_dispatch` normalmente necesitas un Personal Access Token (PAT) con los scopes adecuados.
 >- Scopes recomendados para un PAT que llame a `repository_dispatch`:
 >   - `repo` Acceso a repositorios privados si aplica
 >   - `workflow` Si necesitas disparar workflows que requieren este scope
 >- Alternativa segura: almacenar el PAT como `secrets.PAT_TOKEN` en el repo que ejecuta la llamada y usarlo en la cabecera `Authorization: Bearer ${{ secrets.PAT_TOKEN }}`.
 
-
 #### `schedule`
 
 Permite ejecuciones programadas usando `cron`.
 
 **Características**:
+
 - El cron se evalúa en **UTC**.
 - Sintaxis:
+
   ```bash
 
     ┌───────────── minute (0 - 59)
@@ -186,6 +196,7 @@ Permite ejecuciones programadas usando `cron`.
     │ │ │ │ │
     * * * * *
   ```
+
 - Ideal para mantenimiento: limpieza, rotación de artefactos, checks o ejecucciones periódicas.
 
 ![Workflow -> Trigger -> Schedule](../gifs/workflows-automatic-trigger-with-schedule.gif)
@@ -195,6 +206,7 @@ Permite ejecuciones programadas usando `cron`.
 `workflow_run` es el trigger que dispara un workflow en respuesta a la ejecución de otro workflow dentro del mismo repositorio. Se usa para encadenar pipelines (por ejemplo: ejecutar un reporte o desplegar artefactos cuando los tests terminan) o para reaccionar al inicio/fin de una ejecución.
 
 Definición y comportamiento:
+
 - **Alcance**: sólo escucha ejecuciones de workflows en el mismo repositorio. No se dispara por workflows en otros repositorios.
 - **Eventos (`types`)**: admite `requested` y `completed`.
   - `requested`: se dispara cuando se solicita/lanza una ejecución del workflow origen (antes de que empiece). Útil para preparativos o notificaciones previas.
@@ -396,6 +408,7 @@ jobs:
 Una **Action** en **GitHub Actions** es una unidad reutilizable de código que realiza una tarea específica dentro de un flujo de trabajo. Las **Actions** permiten encapsular lógica y procesos comunes, facilitando su reutilización en diferentes flujos de trabajo y repositorios.
 
 Características principales de una Action:
+
 - **Reutilizable**: Puedes usar la misma Action en múltiples flujos de trabajo.
 - **Personalizable**: Acepta entradas (`inputs`) y genera salidas (`outputs`).
 - **Tipos de Actions**: Pueden ser acciones compuestas (`composite`), basadas en Node.js (`node12` o `node16`), o ejecutadas en contenedores Docker (`docker`).
@@ -405,15 +418,14 @@ Las **Actions** se definen mediante un archivo `action.yml` que especifica su co
 ### Archivos de un action
 
 - 📂 action-name
-    - 🛠️ action.yml
-    - 📚 readme.md
-    - 👾 entrypoint.sh
-    - ...
+  - 🛠️ action.yml
+  - 📚 readme.md
+  - 👾 entrypoint.sh
+  - ...
 
 #### Action file
 
 El archivo `action.yml` es el archivo de metadatos principal que define una **GitHub Action**. Contiene información sobre la acción, como su nombre, descripción, entradas, salidas y los pasos necesarios para ejecutarla. Este archivo es esencial para que **GitHub** reconozca y ejecute la acción correctamente.
-
 
 ##### Ejemplo completo de un `action.yml` utilizando `using: composite`
 
@@ -533,6 +545,7 @@ El archivo `entrypoint.sh` es un script de shell que actúa como el punto de ent
 Este archivo debe ser ejecutable, por lo que es importante asegurarse de que tenga los permisos adecuados (`chmod +x entrypoint.sh`).
 
 **Ejemplo:**
+
 ```bash
 #!/bin/bash
 set -e
@@ -545,6 +558,7 @@ echo "Ejecutando la acción con el parámetro: $INPUT_PARAM1"
 `GITHUB_ENV` es un archivo especial que proporciona GitHub Actions para persistir variables de entorno entre pasos dentro del mismo job. Cuando un paso escribe `NOMBRE=valor` en el archivo situado en la ruta indicada por la variable de entorno `GITHUB_ENV`, los pasos siguientes recibirán `NOMBRE` como variable de entorno normal.
 
 Cuándo usarlo:
+
 - Cuando necesites que un valor calculado en un paso esté disponible como variable de entorno en pasos posteriores dentro del mismo job.
 - Es preferible a `echo export VAR=...` en shells porque soporta correctamente valores multilínea y caracteres especiales.
 
@@ -567,10 +581,10 @@ jobs:
 ```
 
 Notas importantes:
+
 - `GITHUB_ENV` sólo comparte variables dentro del mismo job. Para pasar valores entre jobs usa `outputs` en un job y `needs.<job>.outputs.<name>` en jobs dependientes.
 - Evita escribir secretos directamente en `GITHUB_ENV`; usa `secrets.*` o `env:` con cuidado.
 - Si ejecutas varios shells o lenguajes, asegúrate de usar la sintaxis de ese shell para redirigir a `$GITHUB_ENV` (por ejemplo `>> $GITHUB_ENV`).
-
 
 ## Workflows vs Actions
 
@@ -582,7 +596,7 @@ Aunque ambos se ejecutan dentro de **GitHub Actions**, **un Workflow** y **una A
 ### Tabla comparativa
 
 | Aspecto | Workflows | Actions |
-|---|---|---|
+| --- | --- | --- |
 | Definición / ubicación típica | `.github/workflows/*.yml` | `.github/actions/<name>/action.yml` (o repos externos/Marketplace) |
 | ¿Qué es? | Pipeline/orquestación (eventos → jobs → steps) | Unidad reutilizable (un step reutilizable) |
 | Trigger (`on:`) | Sí (push, pull_request, schedule, workflow_dispatch, workflow_call, entre otros.) | No (una action no “escucha” eventos; la ejecuta un workflow) |
@@ -596,23 +610,27 @@ Aunque ambos se ejecutan dentro de **GitHub Actions**, **un Workflow** y **una A
 ### Casos reales de usos de Workflows
 
 #### **Pull request + types + concurrency + lint**
+
 - Archivo: `.github/workflows/linter.yaml`
 - Trigger: `pull_request` con `types: [opened, synchronize, reopened]`.
 - Patrón clave: `concurrency.group` para cancelar ejecuciones antiguas del mismo PR.
 - Uso de acciones: `github/super-linter/slim` y subida de logs con `actions/upload-artifact` solo si falla.
 
 #### **Push + paths + construir y pushear imagen de Docker**
+
 - Archivo: `.github/workflows/pr-devops-update-python-img.yml`
 - Trigger: `push` a `master` y además `paths:` para evitar builds innecesarios.
 - Patrón clave: job con `timeout-minutes` y pasos que construyen tags dinámicos (outputs) y hacen build/push.
 
 #### **PR con filtro por paths + matriz + contenedor de docker para tests por environment**
+
 - Archivo: `.github/workflows/pr-run-tests-aura.yml`
 - Trigger: `pull_request` + `paths` (solo se ejecuta si cambian rutas relevantes de acceptance y acciones).
 - Patrón clave: job de precondiciones que calcula `outputs` (features modificadas, entornos/canales) y luego un job `run-tests` con `strategy.matrix`.
 - Patrón clave: ejecución dentro de `container:` con `credentials:`.
 
 #### **Ejecución manual y por API (workflow_dispatch + repository_dispatch)**
+
 - Archivo: `.github/workflows/run-tests-aura.yml`
 - Triggers:
   - `workflow_dispatch` con inputs (choices para environment/channel/tag).
@@ -620,6 +638,7 @@ Aunque ambos se ejecutan dentro de **GitHub Actions**, **un Workflow** y **una A
 - Patrón clave: normalización de inputs según el trigger (inputs vs client_payload) y pipeline: preconditions → run-tests → report.
 
 #### **Schedule (cron) para tareas de mantenimiento**
+
 - Archivo: `.github/workflows/schedule-git-clean-workflows.yml`
 - Trigger: `schedule.cron: "0 6 * * 5"`.
 - Patrón clave: job sencillo de mantenimiento que usa una acción local para limpiar ejecuciones antiguas utilizando la cli de GitHub.
@@ -630,7 +649,7 @@ Aunque ambos se ejecutan dentro de **GitHub Actions**, **un Workflow** y **una A
 
 Las **variables** en **GitHub Actions** son valores definidos la **configuración** del repositorio. Estas variables pueden ser utilizadas para personalizar la ejecución de los pasos del flujo de trabajo. Para añadir una variable del repositorio tienes que tener los **permisos de usuario** requeridos y seguir los siguientes pasos:
 
-#### Web
+#### Añadiendo Variables via Web
 
 1. Desde el navegador ve a tu repositorio, ex: `https://github.com/<organization>/<repository_name>`
 2. Click en **Settings**.
@@ -638,9 +657,9 @@ Las **variables** en **GitHub Actions** son valores definidos la **configuració
 4. Click en **"Secrets and Variables"**.
 5. Click en **Actions**.
 6. Click en **"Variables"**.
-6. Click en **"New repository variable"**.
-7. Rellenar los campos de nombre y valor.
-8. Click en **"Add variable"**.
+7. Click en **"New repository variable"**.
+8. Rellenar los campos de nombre y valor.
+9. Click en **"Add variable"**.
 
 ![Add a Variable](../gifs/add-a-variable-in-github.gif)
 
@@ -648,7 +667,8 @@ Las **variables** en **GitHub Actions** son valores definidos la **configuració
 
 1. Ejecutar el comando desde una CLI `gh variable set <SECRET_NAME> --body "<secret_value>" --repo <organization>/<repository_name>`
 
-#### Ejemplo de uso:
+#### Ejemplo: Utilizando vars
+
 ```yaml
 jobs:
   build:
@@ -664,7 +684,7 @@ Los **secretos** en **GitHub Actions** son valores sensibles, como credenciales 
 
 Para añadir un secreto del repositorio tienes que tener los **permisos de usuario** requeridos y seguir los siguientes pasos.
 
-#### Web
+#### Añadiendo secretos via Web
 
 1. Desde el navegador ve a tu repositorio, ex: `https://github.com/<organization>/<repository_name>`
 2. Click en **Settings**.
@@ -677,12 +697,12 @@ Para añadir un secreto del repositorio tienes que tener los **permisos de usuar
 
 ![Add a secret](../gifs/add-a-secret-in-github.gif)
 
-#### gh CLI
+#### Añadiendo secretos via gh CLI
 
 1. Ejecutar el comando desde una CLI `gh secret set SECRET_NAME --body "secret_value" --repo <organization>/<repository_name>`
 
+#### Ejemplo: Utilizando secrets
 
-#### Ejemplo de uso:
 ```yaml
 jobs:
   deploy:
@@ -695,43 +715,43 @@ jobs:
 
 ### GitHub
 
-| Variable                               | Descripción                                                     | Ejemplo                               |
-|----------------------------------------|-----------------------------------------------------------------|---------------------------------------|
-| github.repository                      | Nombre del repositorio en el formato owner/repo.                | Telefonica/aura-tests                 |
-| github.repository_owner                | Propietario del repositorio.                                    | Telefonica                            |
-| github.run_id                          | ID único del flujo de trabajo en ejecución.                     | 123456789                             |
-| github.run_attempt                     | Número de intentos de ejecución del flujo de trabajo.           | 1                                     |
-| github.job                             | Nombre del trabajo en ejecución.                                | build                                 |
-| github.ref_type                        | Tipo de referencia del evento actual (branch o tag).            | branch                                |
-| github.server_url                      | URL del servidor de GitHub.                                     | https://github.com                    |
-| github.api_url                         | URL de la API de GitHub.                                        | https://api.github.com                |
-| github.graphql_url                     | URL de la API GraphQL de GitHub.                                | https://api.github.com/graphql        |
-| github.workspace                       | Directorio de trabajo del repositorio clonado.                  | /home/runner/work/repo-name/repo-name |
-| github.action_path                     | Ruta al directorio donde se encuentra la acción en ejecución.   | /home/runner/work/_actions/org/action |
-| github.token                           | Token de autenticación para interactuar con la API de GitHub.   | ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  |
-| github.head_ref                        | Nombre de la rama de la solicitud de extracción (pull request). | feature-branch                        |
-| github.ref_name                        | Nombre de la referencia del evento actual.                      | main                                  |
-| github.sha                             | SHA del commit que desencadenó el flujo de trabajo.             | ffac537e6cbbf934b08745a378932722dfff  |
-| github.event.pull_request.title        | Título de la solicitud de extracción.                           | "Fix bug in authentication"           |
-| github.event.pull_request.number       | Número de la solicitud de extracción.                           | 42                                    |
-| github.event.pull_request.head.label   | Etiqueta de la rama de la solicitud de extracción.              | user:feature-branch                   |
-| github.ref                             | Referencia del evento actual.                                   | refs/heads/main                       |
-| github.actor                           | Usuario que desencadenó el evento.                              | spiderman                             |
-| github.base_ref                        | Rama base de la solicitud de extracción.                        | main                                  |
-| github.event_name                      | Nombre del evento que desencadenó el flujo de trabajo.          | push                                  |
-| github.event.client_payload.<variable> | Valor de la variable del evento "repository_dispatch".          | production                            |
-| github.run_number                      | Número de ejecución único para el flujo de trabajo.             | 123                                   |
-| github.event.workflow_run.id          | ID de la ejecución del workflow que disparó el evento.          | 123456789                             |
-| github.event.workflow_run.name        | Nombre del workflow origen.                                     | run-tests.yml                         |
-| github.event.workflow_run.html_url    | URL a la ejecución origen en GitHub Actions.                    | https://github.com/.../actions/runs/123456789 |
-| github.event.workflow_run.head_sha    | SHA del commit que ejecutó la run origen.                       | ffac537e6cbbf934b08745a378932722dfff  |
-| github.event.workflow_run.head_branch | Rama asociada a la ejecución origen.                            | feature-branch                        |
-| github.event.workflow_run.run_number  | Número de ejecución (`run_number`) del workflow origen.         | 42                                    |
-| github.event.workflow_run.status      | Estado de la ejecución (`queued`, `in_progress`, `completed`).  | completed                             |
-| github.event.workflow_run.conclusion  | Conclusión final (`success`, `failure`, `cancelled`,...).       | success                               |
-| github.event.workflow_run.run_attempt | Intento de ejecución (1, 2, ...).                               | 1                                     |
-| github.event.workflow_run.event       | Evento que originó la ejecución (`push`, `workflow_dispatch`,...). | push                                  |
-| github.event.workflow_run.workflow_id | ID interno del workflow (numérico).                             | 987654                                |
+| Variable                                  | Descripción                                                        | Ejemplo                                         |
+|-------------------------------------------|--------------------------------------------------------------------|-------------------------------------------------|
+| github.repository                         | Nombre del repositorio en el formato owner/repo.                   | Telefonica/aura-tests                           |
+| github.repository_owner                   | Propietario del repositorio.                                       | Telefonica                                      |
+| github.run_id                             | ID único del flujo de trabajo en ejecución.                        | 123456789                                       |
+| github.run_attempt                        | Número de intentos de ejecución del flujo de trabajo.              | 1                                               |
+| github.job                                | Nombre del trabajo en ejecución.                                   | build                                           |
+| github.ref_type                           | Tipo de referencia del evento actual (branch o tag).               | branch                                          |
+| github.server_url                         | URL del servidor de GitHub.                                        | <https://github.com>                            |
+| github.api_url                            | URL de la API de GitHub.                                           | <https://api.github.com>                        |
+| github.graphql_url                        | URL de la API GraphQL de GitHub.                                   | <https://api.github.com/graphql>                |
+| github.workspace                          | Directorio de trabajo del repositorio clonado.                     | /home/runner/work/repo-name/repo-name           |
+| github.action_path                        | Ruta al directorio donde se encuentra la acción en ejecución.      | /home/runner/work/_actions/org/action           |
+| github.token                              | Token de autenticación para interactuar con la API de GitHub.      | ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX            |
+| github.head_ref                           | Nombre de la rama de la solicitud de extracción (pull request).    | feature-branch                                  |
+| github.ref_name                           | Nombre de la referencia del evento actual.                         | main                                            |
+| github.sha                                | SHA del commit que desencadenó el flujo de trabajo.                | ffac537e6cbbf934b08745a378932722dfff            |
+| github.event.pull_request.title           | Título de la solicitud de extracción.                              | "Fix bug in authentication"                     |
+| github.event.pull_request.number          | Número de la solicitud de extracción.                              | 42                                              |
+| github.event.pull_request.head.label      | Etiqueta de la rama de la solicitud de extracción.                 | user:feature-branch                             |
+| github.ref                                | Referencia del evento actual.                                      | refs/heads/main                                 |
+| github.actor                              | Usuario que desencadenó el evento.                                 | spiderman                                       |
+| github.base_ref                           | Rama base de la solicitud de extracción.                           | main                                            |
+| github.event_name                         | Nombre del evento que desencadenó el flujo de trabajo.             | push                                            |
+| github.event.client_payload.${{variable}} | Valor de la variable del evento "repository_dispatch".             | production                                      |
+| github.run_number                         | Número de ejecución único para el flujo de trabajo.                | 123                                             |
+| github.event.workflow_run.id              | ID de la ejecución del workflow que disparó el evento.             | 123456789                                       |
+| github.event.workflow_run.name            | Nombre del workflow origen.                                        | run-tests.yml                                   |
+| github.event.workflow_run.html_url        | URL a la ejecución origen en GitHub Actions.                       | <https://github.com/.../actions/runs/123456789> |
+| github.event.workflow_run.head_sha        | SHA del commit que ejecutó la run origen.                          | ffac537e6cbbf934b08745a378932722dfff            |
+| github.event.workflow_run.head_branch     | Rama asociada a la ejecución origen.                               | feature-branch                                  |
+| github.event.workflow_run.run_number      | Número de ejecución (`run_number`) del workflow origen.            | 42                                              |
+| github.event.workflow_run.status          | Estado de la ejecución (`queued`, `in_progress`, `completed`).     | completed                                       |
+| github.event.workflow_run.conclusion      | Conclusión final (`success`, `failure`, `cancelled`,...).          | success                                         |
+| github.event.workflow_run.run_attempt     | Intento de ejecución (1, 2, ...).                                  | 1                                               |
+| github.event.workflow_run.event           | Evento que originó la ejecución (`push`, `workflow_dispatch`, ...) | push                                            |
+| github.event.workflow_run.workflow_id     | ID interno del workflow (numérico).                                | 987654                                          |
 
 ### Runner
 
@@ -746,6 +766,6 @@ jobs:
 
 ## Documentación extra
 
-- [GitHub Marketplace -> Actions ](https://github.com/marketplace?type=actions)
+- [GitHub Marketplace -> Actions](https://github.com/marketplace?type=actions)
 - [Quickstart for GitHub Actions](https://docs.github.com/en/actions/get-started/quickstart)
 - [Telefonica -> QACDCO -> GitHub Actions Common](https://github.com/Telefonica/qacdco-github-actions)
