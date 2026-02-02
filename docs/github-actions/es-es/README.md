@@ -5,17 +5,13 @@
 Con **GitHub Actions**, puedes:
 
 - Automatizar tareas repetitivas.
-- Ejecutar scripts personalizados en respuesta a eventos como `push`, `pull_request` o `schedule`.
+- Ejecutar scripts personalizados en respuesta a eventos como `push`, `pull_request`, `schedule`, entre otros.
 - Integrar herramientas y servicios externos.
 - Implementar CI/CD.
 - Construir y desplegar imágenes de Docker.
 - Compilar y desplegar librerías.
-- Crear y compartir acciones reutilizables para la comunidad.
+- Crear y compartir Actions reutilizables para la organización o comunidad.
 - Entre otros.
-
-Los **flujos de trabajo** se definen en archivos YAML dentro del directorio `.github/workflows/` y pueden incluir múltiples trabajos (`jobs`) y pasos (`steps`).
-
-Las **acciones** se definen en archivos YAML dentro del directorio `.github/actions/`. Un action contiene un bloque `runs` para ejecutar múltiples pasos (`steps`).
 
 ## Workflows
 
@@ -23,28 +19,28 @@ Un **workflow** es un archivo YAML dentro de `.github/workflows/` que define:
 
 - **Cuándo** debe ejecutarse (`on:` → triggers/eventos).
 - **Qué** debe ejecutarse (`jobs:` → uno o varios jobs).
-- **Dónde** se ejecuta (`runs-on`, contenedores, runners).
-- **Cómo** se compone la ejecución (matrices, condicionales, dependencias).
+- **Dónde** se ejecuta (`runs-on` → contenedores, runners).
+- **Cómo** se compone la ejecución (matrices, condicionales, dependencias, necesidades).
 
 ### Características de workflows
 
-Algunas características habituales y útiles en **GitHub Actions** son:
+Algunas características habituales y útiles de los **workflows** son:
 
-- **Orientado a eventos**: se ejecutan por eventos (push, PR, cron, manual, API, entre otros).
-- **Ejecución paralela por defecto**: los jobs se ejecutan en paralelo si no hay `needs:`.
+- **Orientado a eventos**: se ejecutan por eventos (push, pull_request, schedule, manual, API, entre otros).
+- **Ejecución paralela por defecto**: los jobs se ejecutan en paralelo si no hay dependencias → `needs:`.
 - **Dependencias entre jobs**: con `needs:` puedes orquestar pipelines (precondiciones → ejecución → reporte).
-- **Condicionales por job o step**: con `if:` puedes evitar ejecuciones innecesarias o proteger ramas.
+- **Condicionales por job o step**: con `if:` puedes evitar ejecuciones innecesarias.
 - **Reutilización**: usando `uses:` puedes invocar **Actions públicas** o **Actions locales** del repositorio (`./.github/actions/...`). También puedes invocar **Actions privadas** de otro repositorio siempre y cuando el repositorio que realiza la invocación o el token (`GITHUB_TOKEN` u otro token) tenga permisos para acceder al repositorio privado.
-- **Entrada/salida entre jobs**: con `outputs:` en un job y `needs.<job>.outputs.<variable>`.
+- **Entrada/salida entre jobs**: usando `inputs:` o `outputs:` en un job. Si es una dependencia un anterior job su salida se puede obtener de la siguiente forma `needs.<job>.outputs.<variable>`.
 - **Matriz de ejecución**: `strategy.matrix` para expandir ejecuciones (por entornos, versiones, shards, entre otros.).
 - **Control de paralelismo**: `max-parallel`, `fail-fast` y `concurrency` para evitar saturar runners.
 - **Variables y secretos**:
-  - `env:` para variables de ejecución.
-  - `vars.*` para variables no sensibles configuradas en el repo/entorno.
-  - `secrets.*` para credenciales.
-- **Artefactos**: `actions/upload-artifact` para subir logs, reportes y resultados, y `actions/download-artifact` para descargar esos artefactos en jobs posteriores o en otros workflows.
+  - `env:` para variables de entorno de ejecución.
+  - `vars.*` para variables no sensibles configuradas en el repositorio.
+  - `secrets.*` para credenciales sensibles configuradas en el repositorio.
+- **Artefactos**: `actions/upload-artifact` para subir archivos (logs, reportes y resultados), y `actions/download-artifact` para descargar todos o un artefacto especifico de jobs posteriores o de otros workflows.
 - **Contenedores**: `jobs.<job>.container` para ejecutar todo el job dentro de una imagen de Docker.
-- **Timeboxing**: `timeout-minutes` para evitar ejecuciones colgadas.
+- **Timeboxing**: `timeout-minutes` para evitar ejecuciones colgadas y de alta duración.
 - **Filtros por rutas**: `on.push.paths` y `on.pull_request.paths` para disparar el workflow solo cuando cambian rutas relevantes.
 
 ### Triggers (eventos) en `on:`
@@ -72,9 +68,27 @@ Se ejecuta ante eventos relacionados con **Pull Requests**.
 Filtros comunes:
 
 - `types`: controla *qué* acciones del PR disparan el workflow. Ejemplos típicos:
+  - `assigned`: cuando se asigna un usuario al PR.
+  - `unassigned`: cuando se desasigna un usuario del PR.
+  - `labeled`: cuando se añade una etiqueta al PR.
+  - `unlabeled`: cuando se elimina una etiqueta del PR.
   - `opened`: cuando se abre el PR.
+  - `edited`: cuando se edita el PR (título o cuerpo).
+  - `closed`: cuando se cierra el PR (merge o cerrado sin merge).
+  - `reopened`: cuando se reabre el PR.
   - `synchronize`: cuando se empujan commits a la rama del PR.
-  - `reopened`: cuando se reabre.
+  - `converted_to_draft`: cuando se convierte el PR a draft.
+  - `locked`: cuando se bloquea la conversación del PR.
+  - `unlocked`: cuando se desbloquea la conversación del PR.
+  - `enqueued`: cuando se encola (p. ej. ejecución pendiente relacionada).
+  - `dequeued`: cuando se retira de la cola.
+  - `milestoned`: cuando se asigna un milestone al PR.
+  - `demilestoned`: cuando se elimina el milestone del PR.
+  - `ready_for_review`: cuando un PR en draft se marca como listo para revisión.
+  - `review_requested`: cuando se solicita una revisión a alguien.
+  - `review_request_removed`: cuando se quita una solicitud de revisión.
+  - `auto_merge_enabled`: cuando se activa el merge automático para el PR.
+  - `auto_merge_disabled`: cuando se desactiva el merge automático para el PR.
 - `paths`: dispara el workflow solo cuando cambian rutas relevantes.
 
 > **Nota** → Si pones `paths`, el workflow **no** se dispara si en la **Pull-request** no toca esas rutas o archivos.
